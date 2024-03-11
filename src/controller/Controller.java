@@ -39,8 +39,15 @@ public class Controller {
 	 */
 	public PN opretPNOrdination(LocalDate startDen, LocalDate slutDen,
 			Patient patient, Laegemiddel laegemiddel, double antal) {
-		// TODO
-		return null;
+		if (startDen.isAfter(slutDen)) {
+			throw new IllegalArgumentException("Fejl i dato");
+		} else if (antal < 0) {
+			throw new IllegalArgumentException("Fejl i mængde");
+		} else {
+			PN pn = new PN(startDen, slutDen, laegemiddel, antal);
+			patient.tilføjOrdination(pn);
+			return pn;
+		}
 	}
 
 	/**
@@ -79,7 +86,13 @@ public class Controller {
 	 * Pre: ordination og dato er ikke null
 	 */
 	public void ordinationPNAnvendt(PN ordination, LocalDate dato) {
-		// TODO
+		if (ordination.getStartDen().isAfter(ordination.getSlutDen())) {
+			throw new IllegalArgumentException("Fejl: Datoen er ikke i perioden");
+		} else if (ordination == null || dato == null) {
+			throw new NullPointerException("Dato eller ordination må ikke være null");
+		} else {
+			ordination.givDosis(dato);
+		}
 	}
 
 	/**

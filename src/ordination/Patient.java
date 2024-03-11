@@ -38,7 +38,17 @@ public class Patient {
         this.vaegt = vaegt;
     }
 
-    //TODO: Metoder (med specifikation) til at vedligeholde link til Ordination
+    public void tilføjOrdination(Ordination ordination) {
+        if (!this.ordinationer.contains(ordination)) {
+            this.ordinationer.add(ordination);
+        }
+    }
+
+    public void fjernOrdination(Ordination ordination) {
+        if (this.ordinationer.contains(ordination)) {
+            this.ordinationer.remove(ordination);
+        }
+    }
 
     @Override
     public String toString(){
