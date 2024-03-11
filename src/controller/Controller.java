@@ -110,8 +110,17 @@ public class Controller {
 	 * Pre: patient og lægemiddel er ikke null
 	 */
 	public double anbefaletDosisPrDoegn(Patient patient, Laegemiddel laegemiddel) {
-		//TODO
-		return 0;
+		if (patient == null || laegemiddel == null) {
+			throw new NullPointerException("Patient eller lægemiddel må ikke være null");
+		} else {
+			if (patient.getVaegt() < 25) {
+				return patient.getVaegt() * laegemiddel.getEnhedPrKgPrDoegnLet();
+			} else if (patient.getVaegt() <= 120) {
+				return patient.getVaegt() * laegemiddel.getEnhedPrKgPrDoegnNormal();
+			} else {
+				return patient.getVaegt() * laegemiddel.getEnhedPrKgPrDoegnTung();
+			}
+		}
 	}
 
 	/**
