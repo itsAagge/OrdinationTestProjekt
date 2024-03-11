@@ -5,11 +5,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import ordination.DagligFast;
-import ordination.DagligSkaev;
-import ordination.Laegemiddel;
-import ordination.PN;
-import ordination.Patient;
+import ordination.*;
 import storage.Storage;
 
 public class Controller {
@@ -68,7 +64,6 @@ public class Controller {
 		else {
 			throw new IllegalArgumentException("Slutdato er efter startdato");
 		}
-		// TODO
 		return fast;
 	}
 
@@ -83,8 +78,29 @@ public class Controller {
 	public DagligSkaev opretDagligSkaevOrdination(LocalDate startDen,
 			LocalDate slutDen, Patient patient, Laegemiddel laegemiddel,
 			LocalTime[] klokkeSlet, double[] antalEnheder) {
-		// TODO
-		return null;
+		for (double antalenhed : antalEnheder) {
+			if (antalenhed <= 0) {
+				throw new IllegalArgumentException();
+			}
+		}
+		if (slutDen.isBefore(startDen)) {
+			throw new IllegalArgumentException("startDato er efter slutDato");
+		}
+		else if (klokkeSlet.length != antalEnheder.length) {
+			throw new IllegalArgumentException("antallet af elementer i klokkeSlet og antalEnheder er forskellige");
+		}
+		else if (startDen == null || slutDen == null || patient == null || laegemiddel == null) {
+			throw new NullPointerException();
+		}
+		else {
+			DagligSkaev dagligSkaev = new DagligSkaev(startDen, slutDen, laegemiddel);
+			for (int i = 0; i < klokkeSlet.length; i++) {
+				dagligSkaev.opretDosis(klokkeSlet[i], antalEnheder[i]);
+			}
+			patient.tilføjOrdination(dagligSkaev);
+			return dagligSkaev;
+		}
+
 	}
 
 	/**
@@ -130,8 +146,18 @@ public class Controller {
 	 */
 	public int antalOrdinationerPrVægtPrLægemiddel(double vægtStart,
 			double vægtSlut, Laegemiddel laegemiddel) {
-		// TODO
-		return 0;
+		int antal = 0;
+		for (Patient patient : storage.getAllPatienter()) {
+			if (patient.getVaegt() >= vægtStart && patient.getVaegt() <= vægtSlut) {
+				for (Ordination ordination : patient.getOrdinationer()) {
+					if (ordination.getLaegemiddel().equals(laegemiddel)) {
+						antal++;
+					}
+				}
+			}
+
+		}
+		return antal;
 	}
 
 	public List<Patient> getAllPatienter() {
