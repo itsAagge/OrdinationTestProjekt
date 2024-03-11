@@ -2,6 +2,7 @@ package controller;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import ordination.DagligFast;
@@ -60,8 +61,15 @@ public class Controller {
 			LocalDate slutDen, Patient patient, Laegemiddel laegemiddel,
 			double morgenAntal, double middagAntal, double aftenAntal,
 			double natAntal) {
+		DagligFast fast = null;
+		if(!slutDen.isBefore(startDen)) {
+			fast = new DagligFast(startDen, slutDen, laegemiddel);
+		}
+		else {
+			throw new IllegalArgumentException("Slutdato er efter startdato");
+		}
 		// TODO
-		return null;
+		return fast;
 	}
 
 	/**
