@@ -16,17 +16,25 @@ public class DagligFast extends Ordination {
 
     @Override
     public double samletDosis() {
-        return 0;
+        // Gang antal dage fra start dato til slut dato
+        // med doegnDosis()
+        int antalDage = slutDen - startDen;
+        double samletDosis = antalDage * doegnDosis;
+        return samletDosis;
     }
 
     @Override
     public double doegnDosis() {
-        return 0;
+        double samlet = 0;
+        for(Dosis dose : doser) {
+            samlet += dose.getAntal()
+        }
+        return samlet;
     }
 
     @Override
     public String getType() {
-        return null;
+        return laegmiddel.getNavn;
     }
     // TODO
 }
