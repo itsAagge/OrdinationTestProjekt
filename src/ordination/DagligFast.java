@@ -1,6 +1,7 @@
 package ordination;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class DagligFast extends Ordination {
 
@@ -18,8 +19,8 @@ public class DagligFast extends Ordination {
     public double samletDosis() {
         // Gang antal dage fra start dato til slut dato
         // med doegnDosis()
-        int antalDage = slutDen - startDen;
-        double samletDosis = antalDage * doegnDosis;
+        double antalDage = ChronoUnit.DAYS.between(getStartDen(), getSlutDen()) + 1;
+        double samletDosis = antalDage * doegnDosis();
         return samletDosis;
     }
 
@@ -27,14 +28,14 @@ public class DagligFast extends Ordination {
     public double doegnDosis() {
         double samlet = 0;
         for(Dosis dose : doser) {
-            samlet += dose.getAntal()
+            samlet += dose.getAntal();
         }
         return samlet;
     }
 
     @Override
     public String getType() {
-        return laegmiddel.getNavn;
+        return getLaegemiddel().getEnhed();
     }
     // TODO
 }
