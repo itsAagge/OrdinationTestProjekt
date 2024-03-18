@@ -110,7 +110,7 @@ public class Controller {
 	 * Pre: ordination og dato er ikke null
 	 */
 	public void ordinationPNAnvendt(PN ordination, LocalDate dato) {
-		if (ordination.getStartDen().isAfter(ordination.getSlutDen())) {
+		if (dato.isBefore(ordination.getStartDen()) && dato.isAfter(ordination.getSlutDen())) {
 			throw new IllegalArgumentException("Fejl: Datoen er ikke i perioden");
 		} else if (ordination == null || dato == null) {
 			throw new NullPointerException("Dato eller ordination må ikke være null");
