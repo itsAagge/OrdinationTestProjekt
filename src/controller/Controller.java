@@ -38,7 +38,7 @@ public class Controller {
 			Patient patient, Laegemiddel laegemiddel, double antal) {
 		if (startDen.isAfter(slutDen)) {
 			throw new IllegalArgumentException("Fejl i dato");
-		} else if (antal < 0) {
+		} else if (antal <= 0) {
 			throw new IllegalArgumentException("Fejl i mængde");
 		} else {
 			PN pn = new PN(startDen, slutDen, laegemiddel, antal);
