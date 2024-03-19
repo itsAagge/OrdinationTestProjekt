@@ -60,6 +60,10 @@ public class Controller {
 		DagligFast fast = null;
 		if(!slutDen.isBefore(startDen)) {
 			fast = new DagligFast(startDen, slutDen, laegemiddel);
+			fast.getDoser()[0].equals(morgenAntal);
+			fast.getDoser()[1].equals(middagAntal);
+			fast.getDoser()[2].equals(aftenAntal);
+			fast.getDoser()[3].equals(natAntal);
 		}
 		else {
 			throw new IllegalArgumentException("Slutdato er efter startdato");
