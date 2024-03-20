@@ -175,7 +175,26 @@ class ControllerTest {
         assertEquals(laegemiddel, actual.getLaegemiddel());
         assertTrue(patient.getOrdinationer().contains(actual));
     }
-
+    void opretDagligSkaevOrdination01() {
+        Patient patient = new Patient("123456-7890", "Anders Hansen", 70);
+        Laegemiddel laegemiddel = new Laegemiddel("Paracetamol", 2, 5, 10, "Pille");
+        LocalTime[] klokkeslet = {LocalTime.of(10, 0)};
+        double[] antalEnheder = {2};
+        DagligSkaev actual = controller.opretDagligSkaevOrdination(
+                LocalDate.of(2024,3, 22),
+                LocalDate.of(2024,4, 9),
+                patient,
+                laegemiddel,
+                klokkeslet,
+                antalEnheder
+        );
+        assertTrue(antalEnheder.length == klokkeslet.length);
+        assertTrue(actual.getStartDen().isBefore(actual.getSlutDen()));
+        // Input er oprettet
+        assertNotNull(patient);
+        assertEquals(laegemiddel, actual.getLaegemiddel());
+        assertTrue(patient.getOrdinationer().contains(actual));
+    }
     @Test
     @DisplayName("Normal test")
     void ordinationPNAnvendt1() {
