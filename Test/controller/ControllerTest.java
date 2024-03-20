@@ -230,7 +230,6 @@ class ControllerTest {
         controller.ordinationPNAnvendt(actual, LocalDate.of(2024,03,20));
         assertEquals(2, actual.getAntalGangeGivet());
 
-
     }
 
     @Test
@@ -249,8 +248,76 @@ class ControllerTest {
     }
 
     @Test
-    void anbefaletDosisPrDoegn() {
+    @DisplayName("20 kg")
+    void anbefaletDosisPrDoegn1() {
+
+        Patient AndersHansen = controller.opretPatient("123456-7890", "Anders Hansen", 20.00);
+
+
+
+        Laegemiddel parcetamol = controller.opretLaegemiddel("Paracetamol", 0.1,0.2,0.4, "styk");
+
+        assertEquals(2, controller.anbefaletDosisPrDoegn(AndersHansen, parcetamol));
+
     }
+
+    @Test
+    @DisplayName("25 kg")
+    void anbefaletDosisPrDoegn2() {
+
+        Patient BennChristensen = controller.opretPatient("123456-7890", "Benn Christensen", 25.00);
+        Laegemiddel parcetamol = controller.opretLaegemiddel("Paracetamol", 0.1,0.2,0.4, "styk");
+
+        assertEquals(5, controller.anbefaletDosisPrDoegn(BennChristensen, parcetamol));
+
+    }
+
+    @Test
+    @DisplayName("80 kg")
+    void anbefaletDosisPrDoegn3() {
+
+        Patient PeterHansen = controller.opretPatient("123456-7890", "Peter Hansen", 80.00);
+        Laegemiddel parcetamol = controller.opretLaegemiddel("Paracetamol", 0.1,0.2,0.4, "styk");
+
+        assertEquals(16, controller.anbefaletDosisPrDoegn(PeterHansen, parcetamol));
+
+    }
+
+    @Test
+    @DisplayName("120 kg")
+    void anbefaletDosisPrDoegn4() {
+
+        Patient LarsJensen = controller.opretPatient("123456-7890", "Lars Jensen", 120.00);        Laegemiddel parcetamol = controller.opretLaegemiddel("Paracetamol", 0.1,0.2,0.4, "styk");
+
+        assertEquals(24, controller.anbefaletDosisPrDoegn(LarsJensen, parcetamol));
+
+    }
+
+    @Test
+    @DisplayName("140 kg")
+    void anbefaletDosisPrDoegn5() {
+
+        Patient MogensHansen = controller.opretPatient("123456-7890", "Mogens Hansen", 140.00);
+        Laegemiddel parcetamol = controller.opretLaegemiddel("Paracetamol", 0.1,0.2,0.4, "styk");
+
+        assertEquals(56, controller.anbefaletDosisPrDoegn(MogensHansen, parcetamol));
+
+    }
+
+    @Test
+    @DisplayName("null test")
+    void anbefaletDosisPrDoegn6() {
+
+        Laegemiddel parcetamol = controller.opretLaegemiddel("Paracetamol", 0.1,0.2,0.4, "styk");
+
+        Throwable exception = assertThrows(NullPointerException.class, () -> controller.anbefaletDosisPrDoegn(null, parcetamol));
+
+        assertEquals("Patient eller lægemiddel må ikke være null", exception.getMessage());
+
+
+
+    }
+
 
     @Test
     @DisplayName("Ordinationer pr vægt - 65-100 Wegovy")
