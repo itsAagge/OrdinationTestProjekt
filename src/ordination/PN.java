@@ -29,10 +29,10 @@ public class PN extends Ordination {
         LocalDate førsteGivning = getSlutDen();
         LocalDate sidsteGivning = getStartDen();
         for (LocalDate dato : tidspunkter) {
-            if (førsteGivning.isBefore(dato)) {
+            if (dato.isBefore(førsteGivning)) {
                 førsteGivning = dato;
             }
-            if (sidsteGivning.isAfter(dato)) {
+            if (dato.isAfter(sidsteGivning)) {
                 sidsteGivning = dato;
             }
         }
