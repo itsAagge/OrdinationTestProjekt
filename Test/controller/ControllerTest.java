@@ -175,6 +175,7 @@ class ControllerTest {
         assertEquals(laegemiddel, actual.getLaegemiddel());
         assertTrue(patient.getOrdinationer().contains(actual));
     }
+    @Test
     void opretDagligSkaevOrdination01() {
         Patient patient = new Patient("123456-7890", "Anders Hansen", 70);
         Laegemiddel laegemiddel = new Laegemiddel("Paracetamol", 2, 5, 10, "Pille");
@@ -195,6 +196,7 @@ class ControllerTest {
         assertEquals(laegemiddel, actual.getLaegemiddel());
         assertTrue(patient.getOrdinationer().contains(actual));
     }
+    @Test
     void opretDagligSkaevOrdination02() {
         Patient patient = new Patient("123456-7890", "Anders Hansen", 70);
         Laegemiddel laegemiddel = new Laegemiddel("Paracetamol", 2, 5, 10, "Pille");
@@ -215,6 +217,7 @@ class ControllerTest {
         assertEquals(laegemiddel, actual.getLaegemiddel());
         assertTrue(patient.getOrdinationer().contains(actual));
     }
+
     @Test
     @DisplayName("Normal test")
     void ordinationPNAnvendt1() {
