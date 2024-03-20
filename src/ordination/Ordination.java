@@ -39,6 +39,7 @@ public abstract class Ordination {
         return startDen.toString();
     }
 
+
     /**
      * Returnerer den totale dosis der er givet i den periode ordinationen er gyldig
      * @return
@@ -56,4 +57,6 @@ public abstract class Ordination {
      * @return
      */
     public abstract String getType();
+
+
 }
