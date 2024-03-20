@@ -26,7 +26,17 @@ public class PN extends Ordination {
     }
 
     public double doegnDosis() {
-        return samletDosis() / (ChronoUnit.DAYS.between(getStartDen(), getSlutDen()) + 1);
+        LocalDate førsteGivning = getSlutDen();
+        LocalDate sidsteGivning = getStartDen();
+        for (LocalDate dato : tidspunkter) {
+            if (førsteGivning.isBefore(dato)) {
+                førsteGivning = dato;
+            }
+            if (sidsteGivning.isAfter(dato)) {
+                sidsteGivning = dato;
+            }
+        }
+        return samletDosis() / (ChronoUnit.DAYS.between(førsteGivning, sidsteGivning) + 1);
     }
 
     @Override

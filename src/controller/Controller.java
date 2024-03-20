@@ -38,7 +38,7 @@ public class Controller {
 			Patient patient, Laegemiddel laegemiddel, double antal) {
 		if (startDen.isAfter(slutDen)) {
 			throw new IllegalArgumentException("Fejl i dato");
-		} else if (antal < 0) {
+		} else if (antal <= 0) {
 			throw new IllegalArgumentException("Fejl i mængde");
 		} else {
 			PN pn = new PN(startDen, slutDen, laegemiddel, antal);
@@ -110,7 +110,7 @@ public class Controller {
 	 * Pre: ordination og dato er ikke null
 	 */
 	public void ordinationPNAnvendt(PN ordination, LocalDate dato) {
-		if (ordination.getStartDen().isAfter(ordination.getSlutDen())) {
+		if (dato.isBefore(ordination.getStartDen()) && dato.isAfter(ordination.getSlutDen())) {
 			throw new IllegalArgumentException("Fejl: Datoen er ikke i perioden");
 		} else if (ordination == null || dato == null) {
 			throw new NullPointerException("Dato eller ordination må ikke være null");
