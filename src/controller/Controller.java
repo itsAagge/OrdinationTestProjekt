@@ -155,7 +155,6 @@ public class Controller {
 					}
 				}
 			}
-
 		}
 		return antal;
 	}
