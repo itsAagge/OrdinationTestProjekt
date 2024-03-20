@@ -16,6 +16,7 @@ class ControllerTest {
     Controller controller = Controller.getController();
 
     @Test
+    @DisplayName("Anders")
     void opretPNOrdination1() {
 
         Patient AndersHansen = new Patient("123456-7890", "Anders Hansen", 80.00);
@@ -33,6 +34,7 @@ class ControllerTest {
     }
 
     @Test
+    @DisplayName("Antal")
     void opretPNOrdination2() {
 
         Patient AndersHansen = new Patient("123456-7890", "Anders Hansen", 80.00);
@@ -49,6 +51,7 @@ class ControllerTest {
     }
 
     @Test
+    @DisplayName("samme dag")
     void opretPNOrdination3() {
 
         Patient AndersHansen = new Patient("123456-7890", "Anders Hansen", 80.00);
@@ -66,6 +69,7 @@ class ControllerTest {
     }
 
     @Test
+    @DisplayName("startdato efter slutdato")
     void opretPNOrdination4() {
 
         Patient AndersHansen = new Patient("123456-7890", "Anders Hansen", 80.00);
@@ -73,10 +77,12 @@ class ControllerTest {
         PN actual = controller.opretPNOrdination(LocalDate.of(2024,03,22), LocalDate.of(2024, 03, 22), AndersHansen, parcetamol, 10);
 
         Throwable excepction = assertThrows(IllegalArgumentException.class, () -> controller.opretPNOrdination(LocalDate.of(2024,03,20), LocalDate.of(2024, 03, 18), AndersHansen, parcetamol, 10));
+        assertEquals("Fejl i dato", excepction.getMessage());
 
     }
 
     @Test
+    @DisplayName("antal under 0")
     void opretPNOrdination5() {
 
         Patient AndersHansen = new Patient("123456-7890", "Anders Hansen", 80.00);
@@ -84,6 +90,7 @@ class ControllerTest {
         PN actual = controller.opretPNOrdination(LocalDate.of(2024,03,22), LocalDate.of(2024, 03, 22), AndersHansen, parcetamol, 10);
 
         Throwable excepction = assertThrows(IllegalArgumentException.class, () -> controller.opretPNOrdination(LocalDate.of(2024,03,18), LocalDate.of(2024, 03, 20), AndersHansen, parcetamol, -1));
+        assertEquals("Fejl i mængde" ,excepction.getMessage());
 
     }
 
@@ -154,7 +161,33 @@ class ControllerTest {
     }
 
     @Test
-    void ordinationPNAnvendt() {
+    @DisplayName("Normal test")
+    void ordinationPNAnvendt1() {
+
+        Patient AndersHansen = new Patient("123456-7890", "Anders Hansen", 80.00);
+        Laegemiddel parcetamol = new Laegemiddel("Paracetamol", 0.1,0.2,0.4, "styk");
+        PN actual = controller.opretPNOrdination(LocalDate.of(2024,03,18), LocalDate.of(2024, 03, 20), AndersHansen, parcetamol, 10);
+
+        controller.ordinationPNAnvendt(actual, LocalDate.of(2024,03,19));
+        controller.ordinationPNAnvendt(actual, LocalDate.of(2024,03,20));
+        assertEquals(2, actual.getAntalGangeGivet());
+
+
+    }
+
+    @Test
+    @DisplayName("dato udenfor perioden")
+    void ordinationPNAnvendt2() {
+
+        Patient AndersHansen = new Patient("123456-7890", "Anders Hansen", 80.00);
+        Laegemiddel parcetamol = new Laegemiddel("Paracetamol", 0.1,0.2,0.4, "styk");
+        PN actual = controller.opretPNOrdination(LocalDate.of(2024,03,18), LocalDate.of(2024, 03, 20), AndersHansen, parcetamol, 10);
+
+        Throwable excepction = assertThrows(IllegalArgumentException.class, () -> controller.ordinationPNAnvendt(actual, LocalDate.of(2024,03,22)));
+
+        assertEquals("Fejl: Datoen er ikke i perioden", excepction.getMessage());
+
+
     }
 
     @Test
