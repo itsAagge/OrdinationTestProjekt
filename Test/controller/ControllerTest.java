@@ -223,20 +223,9 @@ class ControllerTest {
         Laegemiddel laegemiddel = controller.opretLaegemiddel("Paracetamol", 2, 5, 10, "Pille");
         LocalTime[] klokkeslet = {LocalTime.of(9, 0),LocalTime.of(12, 0),LocalTime.of(15, 0),LocalTime.of(18, 0)};
         double[] antalEnheder = {1, 2, 1, 2};
-        DagligSkaev actual = controller.opretDagligSkaevOrdination(
-                LocalDate.of(2024,3, 20),
-                LocalDate.of(2024,3, 18),
-                patient,
-                laegemiddel,
-                klokkeslet,
-                antalEnheder
-        );
-        assertTrue(antalEnheder.length == klokkeslet.length);
-        assertTrue(actual.getStartDen().isBefore(actual.getSlutDen()));
-        // Input er oprettet
-        assertNotNull(patient);
-        assertEquals(laegemiddel, actual.getLaegemiddel());
-        assertTrue(patient.getOrdinationer().contains(actual));
+
+        Throwable excepction = assertThrows(IllegalArgumentException.class, () -> controller.opretDagligSkaevOrdination(LocalDate.of(2024,3, 20), LocalDate.of(2024,3, 18), patient, laegemiddel, klokkeslet, antalEnheder));
+        assertEquals("startDato er efter slutDato", excepction.getMessage());
     }
     @Test
     void opretDagligSkaevOrdinationUgyldig01() {
@@ -244,20 +233,12 @@ class ControllerTest {
         Laegemiddel laegemiddel = new Laegemiddel("Paracetamol", 2, 5, 10, "Pille");
         LocalTime[] klokkeslet = {LocalTime.of(9, 0),LocalTime.of(12, 0),LocalTime.of(15, 0),LocalTime.of(18, 0)};
         double[] antalEnheder = {1, 2, 1};
-        DagligSkaev actual = controller.opretDagligSkaevOrdination(
-                LocalDate.of(2024,3, 18),
-                LocalDate.of(2024,3, 20),
-                patient,
-                laegemiddel,
-                klokkeslet,
-                antalEnheder
-        );
-        assertTrue(antalEnheder.length == klokkeslet.length);
-        assertTrue(actual.getStartDen().isBefore(actual.getSlutDen()));
-        // Input er oprettet
-        assertNotNull(patient);
-        assertEquals(laegemiddel, actual.getLaegemiddel());
-        assertTrue(patient.getOrdinationer().contains(actual));
+
+
+        Throwable excepction = assertThrows(IllegalArgumentException.class, () -> controller.opretDagligSkaevOrdination(LocalDate.of(2024,3, 18), LocalDate.of(2024,3, 20), patient, laegemiddel, klokkeslet, antalEnheder));
+        assertEquals("antallet af elementer i klokkeSlet og antalEnheder er forskellige", excepction.getMessage());
+
+
     }
     @Test
     void opretDagligSkaevOrdinationUgyldig02() {
@@ -265,20 +246,11 @@ class ControllerTest {
         Laegemiddel laegemiddel = new Laegemiddel("Paracetamol", 2, 5, 10, "Pille");
         LocalTime[] klokkeslet = {LocalTime.of(9, 0),LocalTime.of(12, 0),LocalTime.of(15, 0),LocalTime.of(18, 0)};
         double[] antalEnheder = {1, 2, 1};
-        DagligSkaev actual = controller.opretDagligSkaevOrdination(
-                LocalDate.of(2024,3, 18),
-                null,
-                patient,
-                laegemiddel,
-                klokkeslet,
-                antalEnheder
-        );
-        assertTrue(antalEnheder.length == klokkeslet.length);
-        assertTrue(actual.getStartDen().isBefore(actual.getSlutDen()));
-        // Input er oprettet
-        assertNotNull(patient);
-        assertEquals(laegemiddel, actual.getLaegemiddel());
-        assertTrue(patient.getOrdinationer().contains(actual));
+
+
+        Throwable excepction = assertThrows(NullPointerException.class, () -> controller.opretDagligSkaevOrdination(LocalDate.of(2024,3, 18), null, patient, laegemiddel, klokkeslet, antalEnheder));
+        assertNotNull(excepction.getMessage());
+
     }
 
     @Test
