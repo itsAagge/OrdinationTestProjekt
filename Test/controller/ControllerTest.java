@@ -105,7 +105,7 @@ class ControllerTest {
 
         assertTrue(patient.getOrdinationer().contains(actual));
         assertEquals(laegemiddel, actual.getLaegemiddel());
-        assertEquals(4.0, actual.doegnDosis());
+        assertEquals(4, actual.doegnDosis());
         assertEquals(12.0, actual.samletDosis());
     }
 
@@ -219,8 +219,8 @@ class ControllerTest {
     }
     @Test
     void opretDagligSkaevOrdinationUgyldig() {
-        Patient patient = new Patient("123456-7890", "Anders Hansen", 70);
-        Laegemiddel laegemiddel = new Laegemiddel("Paracetamol", 2, 5, 10, "Pille");
+        Patient patient = controller.opretPatient("123456-7890", "Anders Hansen", 70);
+        Laegemiddel laegemiddel = controller.opretLaegemiddel("Paracetamol", 2, 5, 10, "Pille");
         LocalTime[] klokkeslet = {LocalTime.of(9, 0),LocalTime.of(12, 0),LocalTime.of(15, 0),LocalTime.of(18, 0)};
         double[] antalEnheder = {1, 2, 1, 2};
         DagligSkaev actual = controller.opretDagligSkaevOrdination(
