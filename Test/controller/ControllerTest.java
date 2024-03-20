@@ -197,7 +197,7 @@ class ControllerTest {
         assertTrue(patient.getOrdinationer().contains(actual));
     }
     @Test
-    void opretDagligSkaevOrdination02() {
+    void opretDagligSkaevOrdination02()  {
         Patient patient = new Patient("123456-7890", "Anders Hansen", 70);
         Laegemiddel laegemiddel = new Laegemiddel("Paracetamol", 2, 5, 10, "Pille");
         LocalTime[] klokkeslet = {LocalTime.of(9, 0),LocalTime.of(12, 0),LocalTime.of(15, 0),LocalTime.of(18, 0)};
@@ -205,6 +205,69 @@ class ControllerTest {
         DagligSkaev actual = controller.opretDagligSkaevOrdination(
                 LocalDate.of(2024,3, 22),
                 LocalDate.of(2024,3, 22),
+                patient,
+                laegemiddel,
+                klokkeslet,
+                antalEnheder
+        );
+        assertTrue(antalEnheder.length == klokkeslet.length);
+        assertTrue(actual.getStartDen().isBefore(actual.getSlutDen()) || actual.getStartDen().equals(actual.getSlutDen()));
+        // Input er oprettet
+        assertNotNull(patient);
+        assertEquals(laegemiddel, actual.getLaegemiddel());
+        assertTrue(patient.getOrdinationer().contains(actual));
+    }
+    @Test
+    void opretDagligSkaevOrdinationUgyldig() {
+        Patient patient = new Patient("123456-7890", "Anders Hansen", 70);
+        Laegemiddel laegemiddel = new Laegemiddel("Paracetamol", 2, 5, 10, "Pille");
+        LocalTime[] klokkeslet = {LocalTime.of(9, 0),LocalTime.of(12, 0),LocalTime.of(15, 0),LocalTime.of(18, 0)};
+        double[] antalEnheder = {1, 2, 1, 2};
+        DagligSkaev actual = controller.opretDagligSkaevOrdination(
+                LocalDate.of(2024,3, 20),
+                LocalDate.of(2024,3, 18),
+                patient,
+                laegemiddel,
+                klokkeslet,
+                antalEnheder
+        );
+        assertTrue(antalEnheder.length == klokkeslet.length);
+        assertTrue(actual.getStartDen().isBefore(actual.getSlutDen()));
+        // Input er oprettet
+        assertNotNull(patient);
+        assertEquals(laegemiddel, actual.getLaegemiddel());
+        assertTrue(patient.getOrdinationer().contains(actual));
+    }
+    @Test
+    void opretDagligSkaevOrdinationUgyldig01() {
+        Patient patient = new Patient("123456-7890", "Anders Hansen", 70);
+        Laegemiddel laegemiddel = new Laegemiddel("Paracetamol", 2, 5, 10, "Pille");
+        LocalTime[] klokkeslet = {LocalTime.of(9, 0),LocalTime.of(12, 0),LocalTime.of(15, 0),LocalTime.of(18, 0)};
+        double[] antalEnheder = {1, 2, 1};
+        DagligSkaev actual = controller.opretDagligSkaevOrdination(
+                LocalDate.of(2024,3, 18),
+                LocalDate.of(2024,3, 20),
+                patient,
+                laegemiddel,
+                klokkeslet,
+                antalEnheder
+        );
+        assertTrue(antalEnheder.length == klokkeslet.length);
+        assertTrue(actual.getStartDen().isBefore(actual.getSlutDen()));
+        // Input er oprettet
+        assertNotNull(patient);
+        assertEquals(laegemiddel, actual.getLaegemiddel());
+        assertTrue(patient.getOrdinationer().contains(actual));
+    }
+    @Test
+    void opretDagligSkaevOrdinationUgyldig02() {
+        Patient patient = new Patient("123456-7890", "Anders Hansen", 70);
+        Laegemiddel laegemiddel = new Laegemiddel("Paracetamol", 2, 5, 10, "Pille");
+        LocalTime[] klokkeslet = {LocalTime.of(9, 0),LocalTime.of(12, 0),LocalTime.of(15, 0),LocalTime.of(18, 0)};
+        double[] antalEnheder = {1, 2, 1};
+        DagligSkaev actual = controller.opretDagligSkaevOrdination(
+                LocalDate.of(2024,3, 18),
+                null,
                 patient,
                 laegemiddel,
                 klokkeslet,
